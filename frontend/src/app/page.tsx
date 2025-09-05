@@ -1,10 +1,13 @@
+import Navbar from "./Components/Navbar";
 
-import AuthPage from "./pages/AuthPage";
-
-export default function Page(){
-  return(
+export default function Home() {
+  return (
     <>
-      <AuthPage/>
+      <div className="min-h-screen bg-[#1E1E1E]">
+        <Navbar />
+
+      </div>
+
     </>
   )
 }
