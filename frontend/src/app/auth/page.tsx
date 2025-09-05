@@ -1,6 +1,9 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
+import { FaFacebook } from 'react-icons/fa';
+import { IoMdArrowBack } from "react-icons/io";
+import Link from "next/link";
 
 type RegisterProps = {
   switchToLogin: () => void;
@@ -40,6 +43,9 @@ const Register = ({ switchToLogin }: RegisterProps) => {
 
    return (
       <div className="flex flex-col bg-white w-2/5 rounded-lg p-7">
+         <Link href="/">
+            <span className="flex items-center cursor-pointer"><IoMdArrowBack className="mr-1"/>Back</span>
+         </Link>
          <h2 className="heading text-4xl font-extrabold text-center mb-3 uppercase">Sign Up</h2>
          {error && <div className="text-red-500">{error}</div>}
          {success && <div className="text-green-500">{success}</div>}
@@ -97,7 +103,16 @@ const Register = ({ switchToLogin }: RegisterProps) => {
             </span>
             <button type="submit" className="w-full bg-black text-white font-semibold p-3 rounded-sm uppercase">{loading ? "Loading..." : "Sign Up"}</button>
             <span>OR</span>
-            <button type="submit" className="w-full bg-[#D9D9D9] font-semibold p-3 rounded-sm uppercase">{loading ? "Loading..." : "Continue with facebook"}</button>
+            <button  type="submit"  className="w-full bg-[#D9D9D9] font-semibold p-3 rounded-sm uppercase flex items-center justify-center space-x-2">
+               {loading ? (
+                  "Loading..."
+               ) : (
+                     <>
+                        <FaFacebook color="#1877F2" size={20} />
+                        <span>Continue with Facebook</span>
+                     </>
+               )}
+            </button>
          </form>
       </div>
    );
@@ -128,6 +143,9 @@ const Login = ({ switchToRegister }: LoginProps) => {
 
    return (
       <div className="flex flex-col bg-white w-2/5 rounded-lg p-7">
+         <Link href="/">
+            <span className="flex items-center cursor-pointer"><IoMdArrowBack className="mr-1"/>Back</span>
+         </Link>
          <h2 className="heading text-4xl font-extrabold text-center mb-3 uppercase">Log in</h2>
          {error && <div className="text-red-500">{error}</div>}
          {success && <div className="text-green-500">{success}</div>}
@@ -148,13 +166,25 @@ const Login = ({ switchToRegister }: LoginProps) => {
                value={formData.password}
                className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full " 
             />
+            <div className="flex w-full justify-end">
+               <span className="underline text-right">Forgot your password?</span>
+            </div>
             <button type="submit" className="w-full bg-black text-white font-semibold p-3 rounded-sm uppercase">{loading ? "Loading..." : "Log in"}</button>
             <span>
                You don't have an account yet?{" "}
                <a className="underline cursor-pointer" onClick={switchToRegister}>Sign Up</a>
             </span>
             <span>OR</span>
-            <button type="submit" className="w-full bg-[#D9D9D9] font-semibold p-3 rounded-sm uppercase">{loading ? "Loading..." : "Continue with facebook"}</button>
+            <button  type="submit"  className="w-full bg-[#D9D9D9] font-semibold p-3 rounded-sm uppercase flex items-center justify-center space-x-2">
+               {loading ? (
+                  "Loading..."
+               ) : (
+                     <>
+                        <FaFacebook color="#1877F2" size={20} />
+                        <span>Continue with Facebook</span>
+                     </>
+               )}
+            </button>
          </form>
       </div>
    );
