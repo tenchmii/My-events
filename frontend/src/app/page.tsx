@@ -1,4 +1,5 @@
-import Navbar from "./Components/Navbar";
+import Navbar from "./components/Navbar"; 
+import EventList from "./components/EventList";
 
 export default function Home() {
   return (
@@ -6,8 +7,11 @@ export default function Home() {
       <div className="min-h-screen bg-[#1E1E1E]">
         <Navbar />
 
-      </div>
+        <main>
+          <EventList />
+        </main>
 
+      </div>
     </>
-  )
+  );
 }

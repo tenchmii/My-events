@@ -1,21 +1,21 @@
-import { AgendaEvent } from "@/types/event";
+import { OdsApiResponse } from "@/types/event";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-interface EventsResponse {
-    events: AgendaEvent[];
-    // ... autres champs de la pagination si besoin
-}
+export async function getEvents(): Promise<OdsApiResponse> {
+  if (!API_URL) {
+    throw new Error("NEXT_PUBLIC_API_URL is not defined in .env.local");
+  }
+  
 
-export async function getEvents(): Promise<EventsResponse> {
-    const res = await fetch(`${API_URL}/api/events`, {
-        // On peut ajouter du caching Next.js ici plus tard
-        next: { revalidate: 3600 } // Cache d'une heure
-    });
+  const res = await fetch(`${API_URL}/api/events`, {
+    cache: 'no-store' 
+  });
 
-    if (!res.ok) {
-        throw new Error('Failed to fetch events');
-    }
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`Failed to fetch events: ${res.status} ${res.statusText} - ${errorText}`);
+  }
 
-    return res.json();
+  return res.json();
 }
