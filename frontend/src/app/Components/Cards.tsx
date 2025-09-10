@@ -5,8 +5,8 @@ export default function Cards() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 text-white">
       {events.map((event) => (
-         <Link href={`/events/${event.id}`}>
-            <div key={event.id} className="rounded-2xl p-5 flex flex-col justify-between">
+         <Link href={`/events/${event.id}`} key={event.id}>
+            <div className="rounded-2xl p-5 flex flex-col justify-between">
                <div className="h-40 w-full bg-gray-200 rounded-xl mb-4 flex items-center justify-center">
                   <img src="hello.avif" className="rounded-md"/>
                </div>
