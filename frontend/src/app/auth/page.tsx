@@ -1,13 +1,18 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import { FaFacebook } from 'react-icons/fa';
+import { FaFacebook, FaGoogle } from 'react-icons/fa'; // Importation de l'icône Google
 import { IoMdArrowBack } from "react-icons/io";
 import Link from "next/link";
+import SocialLoginButton from "./SocialLoginButton"; // Importation du nouveau composant
 
+// ====================================================================
+// COMPOSANT POUR L'INSCRIPTION (REGISTER)
+// ====================================================================
 type RegisterProps = {
   switchToLogin: () => void;
 };
+
 const Register = ({ switchToLogin }: RegisterProps) => {
    const [formData, setFormData] = useState({
       firstname: "",
@@ -37,90 +42,65 @@ const Register = ({ switchToLogin }: RegisterProps) => {
          return;
       }
 
+      // TODO: Implémenter la logique d'inscription réelle avec l'API backend
+      console.log("Formulaire d'inscription soumis:", formData);
+      
       setSuccess("Registered successfully!");
       setLoading(false);
    };
 
    return (
-      <div className="flex flex-col bg-white w-2/5 rounded-lg p-7">
+      <div className="flex flex-col bg-white w-full max-w-md rounded-lg p-7">
          <Link href="/">
-            <span className="flex items-center cursor-pointer"><IoMdArrowBack className="mr-1"/>Back</span>
+            <span className="flex items-center cursor-pointer text-gray-600 hover:text-black"><IoMdArrowBack className="mr-1"/>Back to Home</span>
          </Link>
-         <h2 className="heading text-4xl font-extrabold text-center mb-3 uppercase">Sign Up</h2>
-         {error && <div className="text-red-500">{error}</div>}
-         {success && <div className="text-green-500">{success}</div>}
-         <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4">
+         <h2 className="heading text-4xl font-extrabold text-center mb-3 uppercase text-gray-800">Sign Up</h2>
+         {error && <div className="text-red-500 text-center mb-2">{error}</div>}
+         {success && <div className="text-green-500 text-center mb-2">{success}</div>}
+         
+         <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4 mt-4">
             <div className="flex w-full space-x-3">
                <input 
-                  type="text" 
-                  name="firstname" 
-                  placeholder="First Name" 
-                  onChange={handleChange} 
-                  value={formData.firstname} 
-                  className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full " />
+                  type="text" name="firstname" placeholder="First Name" onChange={handleChange} value={formData.firstname} 
+                  className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full" required />
                <input 
-                  type="text" 
-                  name="lastname" 
-                  placeholder="Last Name" 
-                  onChange={handleChange} 
-                  value={formData.lastname}
-                  className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full" />
+                  type="text" name="lastname" placeholder="Last Name" onChange={handleChange} value={formData.lastname}
+                  className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full" required />
             </div>
-            <input
-               type="text"
-               name="nickname"
-               placeholder="Nickname"
-               onChange={handleChange}
-               value={formData.nickname}
-               className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full"
-            />
-            <input
-               type="email"
-               name="email"
-               placeholder="Email"
-               onChange={handleChange}
-               value={formData.email}
-               className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full"
-            />
-            <input
-               type="password"
-               name="password"
-               placeholder="Password"
-               onChange={handleChange}
-               value={formData.password}
-               className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full"
-            />
-            <input
-               type="password"
-               name="passwordConfirmation"
-               placeholder="Confirm Password"
-               onChange={handleChange}
-               value={formData.passwordConfirmation}
-               className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full"
-            />
-            <span>Already have an account? {""} 
-               <a className="underline cursor-pointer" onClick={switchToLogin}>Log in</a>
+            <input type="text" name="nickname" placeholder="Nickname" onChange={handleChange} value={formData.nickname}
+               className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full" required />
+            <input type="email" name="email" placeholder="Email" onChange={handleChange} value={formData.email}
+               className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full" required />
+            <input type="password" name="password" placeholder="Password" onChange={handleChange} value={formData.password}
+               className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full" required />
+            <input type="password" name="passwordConfirmation" placeholder="Confirm Password" onChange={handleChange} value={formData.passwordConfirmation}
+               className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full" required />
+            
+            <span className="text-sm">Already have an account? {""} 
+               <a className="underline cursor-pointer text-blue-600" onClick={switchToLogin}>Log in</a>
             </span>
-            <button type="submit" className="w-full bg-black text-white font-semibold p-3 rounded-sm uppercase">{loading ? "Loading..." : "Sign Up"}</button>
-            <span>OR</span>
-            <button  type="submit"  className="w-full bg-[#D9D9D9] font-semibold p-3 rounded-sm uppercase flex items-center justify-center space-x-2">
-               {loading ? (
-                  "Loading..."
-               ) : (
-                     <>
-                        <FaFacebook color="#1877F2" size={20} />
-                        <span>Continue with Facebook</span>
-                     </>
-               )}
+            <button type="submit" className="w-full bg-black text-white font-semibold p-3 rounded-sm uppercase" disabled={loading}>
+                {loading ? "Loading..." : "Sign Up"}
             </button>
+            
+            <div className="w-full text-center my-2 text-gray-500 text-sm">OR</div>
+
+            <div className="w-full space-y-3">
+              <SocialLoginButton provider="google" icon={FaGoogle} label="Continue with Google" />
+              <SocialLoginButton provider="facebook" icon={FaFacebook} label="Continue with Facebook" iconColor="#1877F2" />
+            </div>
          </form>
       </div>
    );
 };
 
+// ====================================================================
+// COMPOSANT POUR LA CONNEXION (LOGIN)
+// ====================================================================
 type LoginProps = {
    switchToRegister: () => void;
 };
+
 const Login = ({ switchToRegister }: LoginProps) => {
    const [formData, setFormData] = useState({ email: "", password: "" });
    const [error, setError] = useState("");
@@ -137,63 +117,59 @@ const Login = ({ switchToRegister }: LoginProps) => {
       setSuccess("");
       setLoading(true);
 
+      // TODO: Implémenter la logique de connexion réelle avec l'API backend
+      console.log("Formulaire de connexion soumis:", formData);
+
       setSuccess("Logged in successfully!");
       setLoading(false);
    };
 
    return (
-      <div className="flex flex-col bg-white w-2/5 rounded-lg p-7">
+      <div className="flex flex-col bg-white w-full max-w-md rounded-lg p-7">
          <Link href="/">
-            <span className="flex items-center cursor-pointer"><IoMdArrowBack className="mr-1"/>Back</span>
+            <span className="flex items-center cursor-pointer text-gray-600 hover:text-black"><IoMdArrowBack className="mr-1"/>Back to Home</span>
          </Link>
-         <h2 className="heading text-4xl font-extrabold text-center mb-3 uppercase">Log in</h2>
-         {error && <div className="text-red-500">{error}</div>}
-         {success && <div className="text-green-500">{success}</div>}
-         <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4">          
-            <input
-               type="email"
-               name="email"
-               placeholder="Please Enter your Email"
-               onChange={handleChange}
-               value={formData.email}
-               className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full " 
-            />
-            <input
-               type="password"
-               name="password"
-               placeholder="Please Enter your Password"
-               onChange={handleChange}
-               value={formData.password}
-               className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full " 
-            />
+         <h2 className="heading text-4xl font-extrabold text-center mb-3 uppercase text-gray-800">Log in</h2>
+         {error && <div className="text-red-500 text-center mb-2">{error}</div>}
+         {success && <div className="text-green-500 text-center mb-2">{success}</div>}
+
+         <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4 mt-4">          
+            <input type="email" name="email" placeholder="Please Enter your Email" onChange={handleChange} value={formData.email}
+               className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full" required />
+            <input type="password" name="password" placeholder="Please Enter your Password" onChange={handleChange} value={formData.password}
+               className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full" required />
+            
             <div className="flex w-full justify-end">
-               <span className="underline text-right">Forgot your password?</span>
+               <a href="#" className="underline text-sm text-blue-600">Forgot your password?</a>
             </div>
-            <button type="submit" className="w-full bg-black text-white font-semibold p-3 rounded-sm uppercase">{loading ? "Loading..." : "Log in"}</button>
-            <span>
-               You don't have an account yet?{" "}
-               <a className="underline cursor-pointer" onClick={switchToRegister}>Sign Up</a>
-            </span>
-            <span>OR</span>
-            <button  type="submit"  className="w-full bg-[#D9D9D9] font-semibold p-3 rounded-sm uppercase flex items-center justify-center space-x-2">
-               {loading ? (
-                  "Loading..."
-               ) : (
-                     <>
-                        <FaFacebook color="#1877F2" size={20} />
-                        <span>Continue with Facebook</span>
-                     </>
-               )}
+            
+            <button type="submit" className="w-full bg-black text-white font-semibold p-3 rounded-sm uppercase" disabled={loading}>
+                {loading ? "Loading..." : "Log in"}
             </button>
+
+            <span className="text-sm">You don't have an account yet?{" "} 
+               <a className="underline cursor-pointer text-blue-600" onClick={switchToRegister}>Sign Up</a>
+            </span>
+            
+            <div className="w-full text-center my-2 text-gray-500 text-sm">OR</div>
+
+            <div className="w-full space-y-3">
+              <SocialLoginButton provider="google" icon={FaGoogle} label="Continue with Google" />
+              <SocialLoginButton provider="facebook" icon={FaFacebook} label="Continue with Facebook" iconColor="#1877F2" />
+            </div>
          </form>
       </div>
    );
 };
 
+// ====================================================================
+// EXPORTATION DU COMPOSANT PRINCIPAL DE LA PAGE
+// ====================================================================
 export default function AuthPage() {
    const [showRegister, setShowRegister] = useState(true);
+
    return (
-      <div className="h-screen flex items-center justify-center bg-[#1E1E1E]">
+      <div className="min-h-screen flex items-center justify-center bg-[#1E1E1E] p-4">
          {showRegister ? (
             <Register switchToLogin={() => setShowRegister(false)} />
          ) : (
@@ -202,4 +178,3 @@ export default function AuthPage() {
       </div>
    );
 }
-
