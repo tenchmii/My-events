@@ -10,5 +10,6 @@ class User(Base):
     avatar_url = Column(String)
     bio = Column(Text)
     
-    provider = Column(String, nullable=False) 
-    provider_id = Column(String, unique=True, nullable=False)
+    hashed_password = Column(String, nullable=True)
+    provider = Column(String, nullable=True)
+    provider_id = Column(String, unique=True, nullable=True)
