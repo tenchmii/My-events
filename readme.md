@@ -1,100 +1,124 @@
 # MY_EVENTS
 
-MY_EVENTS est une application web conçue pour découvrir, organiser et participer à des événements culturels. Inspirée par des plateformes comme Shotgun, notre objectif est de proposer une expérience utilisateur (UX) supérieure, plus intuitive et plus engageante.
+MY_EVENTS is a web application designed to discover, organize, and participate in cultural events. Inspired by platforms like Shotgun, our goal is to offer a superior, more intuitive, and engaging user experience (UX).
 
-## Objectifs du Projet
+## Project Goals
 
-*   **Découverte d'Événements :** Agréger les événements depuis des sources externes (API OpenAgenda).
-*   **Organisation de Sorties :** Permettre aux utilisateurs de créer leurs propres sorties sociales autour de ces événements.
-*   **Interaction Sociale :** Créer une communauté où les utilisateurs peuvent échanger et se rencontrer.
-*   **UX/UI de Premier Ordre :** Mettre l'accent sur la fluidité, la performance et un design moderne.
+*   **Event Discovery:** Aggregate events from external sources (OpenDataSoft API).
+*   **Outing Organization:** Allow users to create their own social outings based on these events.
+*   **Social Interaction:** Foster a community where users can connect and meet.
+*   **First-Class UX/UI:** Focus on fluidity, performance, and a modern design.
 
-## Stack Technique
+## Tech Stack
 
-Ce projet est construit sur une stack full-stack moderne et performante :
+This project is built on a modern and performant full-stack architecture:
 
-*   **Frontend :**
-    *   Framework : **Next.js** (avec App Router)
-    *   Langage : **TypeScript**
-    *   Styling : **Tailwind CSS**
-    *   Gestion de l'état : Zustand / React Context
-*   **Backend :**
-    *   Framework : **FastAPI**
-    *   Langage : **Python 3.10+**
-    *   Base de données : **PostgreSQL** (à venir)
-    *   ORM : **SQLAlchemy** (à venir)
-*   **Gestion des dépendances :**
-    *   Frontend : **npm**
-    *   Backend : **pip** et environnements virtuels (`venv`)
+*   **Frontend:**
+    *   Framework: **Next.js** (with App Router)
+    *   Language: **TypeScript**
+    *   Styling: **Tailwind CSS**
+*   **Backend:**
+    *   Framework: **FastAPI**
+    *   Language: **Python 3.10+**
+    *   Database: **PostgreSQL**
+    *   ORM: **SQLAlchemy**
+*   **Dependency Management:**
+    *   Frontend: **npm**
+    *   Backend: **pip** and virtual environments (`venv`)
 
-## Démarrage Rapide (Développement Local)
+## Getting Started (Local Development)
 
-Suivez ces étapes pour lancer le projet sur votre machine.
+Follow these steps to run the project on your machine.
 
-### Prérequis
+### Prerequisites
 
 *   [Git](https://git-scm.com/)
-*   [Node.js LTS (v20.x)](https://nodejs.org/) - Il est fortement recommandé d'utiliser [nvm](https://github.com/nvm-sh/nvm).
-*   [Python (v3.11+)](https://www.python.org/)
+*   [Node.js LTS (v20.x)](https://nodejs.org/) - Using [nvm](https://github.com/nvm-sh/nvm) is highly recommended.
+*   [Python (v3.10+)](https://www.python.org/)
+*   [PostgreSQL](https://www.postgresql.org/) - A PostgreSQL database server must be installed and running.
 
 ### Installation
 
-1.  **Cloner le repository :**
+1.  **Clone the repository:**
     ```bash
-    git clone repos
+    git clone <your-repository-url>
+    cd my-events
     ```
 
-2.  **Configurer le Backend :**
-    ```bash
-    # Se placer dans le dossier backend
-    cd backend
+2.  **Set up the Database (PostgreSQL):**
+    *   Create a dedicated user and database for the project. Connect to `psql` and run the following commands:
+        ```sql
+        CREATE USER myevents_user WITH PASSWORD 'your_password';
+        CREATE DATABASE my_events_db OWNER myevents_user;
+        ```
+    *   **Important:** Choose a password without special characters (`@`, `:`, `/`, etc.) to avoid URL parsing issues.
 
-    # Créer et activer l'environnement virtuel
-    python3 -m venv venv
-    source venv/bin/activate  # Sur macOS/Linux
-    # .\venv\Scripts\Activate.ps1 # Sur Windows PowerShell
+3.  **Set up the Backend:**
+    *   Navigate to the backend directory:
+        ```bash
+        cd backend
+        ```
+    *   Create and activate a virtual environment:
+        ```bash
+        python3 -m venv venv
+        source venv/bin/activate  # On macOS/Linux
+        # .\venv\Scripts\Activate.ps1 # On Windows PowerShell
+        ```
+    *   Install Python dependencies:
+        ```bash
+        pip install -r requirements.txt
+        ```
+    *   Create the environment file. It's recommended to copy the example file:
+        ```bash
+        cp .env.example .env
+        ```
+    *   Open `backend/.env` and fill in the `DATABASE_URL` and `JWT_SECRET_KEY` variables.
 
-    # Installer les dépendances Python
-    pip install -r requirements.txt
-    ```
+    *   **Apply database migrations:**
+        This command creates the necessary tables (e.g., the `users` table).
+        ```bash
+        alembic upgrade head
+        ```
 
-3.  **Configurer le Frontend :**
-    ```bash
-    # Se placer dans le dossier frontend (depuis la racine)
-    cd frontend
+4.  **Set up the Frontend:**
+    *   Navigate to the frontend directory from the root:
+        ```bash
+        cd frontend
+        ```
+    *   Install Node.js dependencies:
+        ```bash
+        npm install
+        ```
+    *   Create the local environment file:
+        ```bash
+        cp .env.example .env.local
+        ```
+    *   Open `frontend/.env.local` and fill in `NEXT_PUBLIC_API_URL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, and `NEXTAUTH_SECRET`. You can obtain Google credentials from the [Google Cloud Console](https://console.cloud.google.com/).
 
-    # Installer les dépendances Node.js
-    npm install
+### Running the Application
 
-    # Créer le fichier d'environnement local
-    # Si .env.example n'existe pas, créez .env.local et ajoutez :
-    # NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
-    ```
+You will need two separate terminals.
 
-### Lancement
-
-Vous aurez besoin de deux terminaux.
-
-1.  **Lancer le serveur Backend (API) :**
-    *   Ouvrez un terminal dans le dossier `backend/`.
-    *   Assurez-vous que votre environnement virtuel est activé (`(venv)`).
+1.  **Start the Backend Server (API):**
+    *   Open a terminal in the `backend/` directory.
+    *   Make sure your virtual environment is activated (`(venv)`).
     ```bash
     uvicorn main:app --reload
     ```
-    L'API sera disponible sur `http://127.0.0.1:8000`. Vous pouvez consulter la documentation interactive sur `http://127.0.0.1:8000/docs`.
+    The API will be available at `http://127.0.0.1:8000`. You can view the interactive documentation at `http://127.0.0.1:8000/docs`.
 
-2.  **Lancer le serveur Frontend (Application Web) :**
-    *   Ouvrez un second terminal dans le dossier `frontend/`.
+2.  **Start the Frontend Server (Web App):**
+    *   Open a second terminal in the `frontend/` directory.
     ```bash
     npm run dev
     ```
-    L'application sera accessible sur `http://localhost:3000`.
+    The application will be accessible at `http://localhost:3000`.
 
-## Conventions de Commit
+## Commit Conventions
 
-Nous utilisons le standard [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Cela nous aide à maintenir un historique de version clair et à automatiser la génération de changelogs.
+We follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standard. This helps us maintain a clear version history and automate changelog generation.
 
-Exemples :
+Examples:
 *   `feat: add user authentication`
 *   `fix: correct password validation logic`
 *   `docs: update README with setup instructions`

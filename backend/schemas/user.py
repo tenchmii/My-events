@@ -30,3 +30,8 @@ class Token(BaseModel):
     access_token: str
     token_type: str
     user: User
+
+class UserRegister(BaseModel):
+    email: EmailStr
+    pseudo: str
+    password: str
