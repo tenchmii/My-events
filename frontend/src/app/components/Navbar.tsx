@@ -41,17 +41,19 @@ export default function Navbar() {
 
         {status === "authenticated" && session?.user && (
           <div className="flex items-center space-x-4">
-            <span className="font-semibold">{session.user.name}</span>
-            <div className="flex items-center space-x-4">
-              {session.user.image && (
-                <Image
-                  src={session.user.image}
-                  alt="Avatar"
-                  width={32}
-                  height={32}
-                  className="rounded-full"
-                />
-              )}
+            <Link href="/profile">
+              <span className="font-semibold">{session.user.name}</span>
+            </Link>
+              <div className="flex items-center space-x-4">
+                {session.user.image && (
+                  <Image
+                    src={session.user.image}
+                    alt="Avatar"
+                    width={32}
+                    height={32}
+                    className="rounded-full"
+                  />
+                )}
               <button
                 onClick={() => signOut()}
                 className="uppercase bg-red-600 text-white font-bold p-2 text-xs rounded-sm hover:bg-red-700 transition-colors"
