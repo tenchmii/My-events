@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 export default function Carousel() {
   return (
-    <div className=" bg-[#333232] h-[350px] m-10 rounded-3xl flex justify-between overflow-hidden pl-20 pr-20">
+    <div className=" bg-[#333232] h-[350px] ml-30 mr-30 mt-20 rounded-3xl flex justify-between overflow-hidden pl-20 pr-20">
       <div className="flex flex-col justify-center">
           <h1 className="text-4xl font-bold text-white Bakbak">Plan Less, Enjoy More,<br/> Every Time You Go Out.</h1>
           <span>Best events at the best price.</span>
