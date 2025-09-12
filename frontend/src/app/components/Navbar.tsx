@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+
 import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
+import { BiSearch } from "react-icons/bi";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
@@ -13,11 +15,12 @@ export default function Navbar() {
         <Link href="/" className="uppercase text-xl font-bold">
           My Events
         </Link>
-        <input
-          type="search"
-          placeholder="Rechercher un événement..."
-          className="p-2 rounded-full bg-[#5c5c5c] outline-none w-[350px] placeholder:text-gray-300"
-        />
+        <Link href="/search">
+          <button className="flex items-center p-2 bg-gray-700 rounded-full hover:bg-gray-600 transition-colors px-4" >
+            <BiSearch className="mr-2" size={18} />
+              Rechercher un événement, concert ou ville
+          </button> 
+        </Link>
       </div>
 
       <div className="flex space-x-6 items-center">
