@@ -1,7 +1,8 @@
 from logging.config import fileConfig
 from database import Base 
     
-from models.user import User 
+from models.user import User
+from models.outing import Event, Outing, OutingParticipant
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool

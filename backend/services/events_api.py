@@ -58,3 +58,33 @@ async def fetch_events_from_opendatasoft(
             traceback.print_exc()
             print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
             return None
+        
+async def fetch_single_event_from_opendatasoft(event_uid: str):
+    """
+    Récupère UN SEUL événement en utilisant son UID via une clause WHERE.
+    """
+    params = {
+        "where": f"uid = '{event_uid}'",
+        "limit": 1
+    }
+    
+    async with httpx.AsyncClient() as client:
+        try:
+            print("----------------------------------------------------")
+            print(f"Recherche d'un seul événement avec params : {params}")
+            response = await client.get(API_BASE_URL, params=params)
+            response.raise_for_status()
+            data = response.json()
+            
+            # La réponse est une liste, on veut le premier (et seul) élément
+            if data.get("total_count", 0) > 0 and data.get("results"):
+                print("Événement trouvé !")
+                print("----------------------------------------------------")
+                return data["results"][0]
+            else:
+                print("Aucun événement trouvé pour cet UID.")
+                print("----------------------------------------------------")
+                return None
+        except httpx.HTTPStatusError as e:
+            print(f"Erreur API lors de la récupération d'un seul événement: {e}")
+            return None
