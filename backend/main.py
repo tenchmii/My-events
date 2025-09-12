@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from services.events_api import fetch_events_from_opendatasoft
 from typing import Optional
-from routers import auth 
+from routers import auth, outings, events
 
 app = FastAPI()
 
@@ -19,7 +19,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(auth.router, prefix="/api", tags=["authentication"]) 
+app.include_router(auth.router, prefix="/api", tags=["authentication"])
+app.include_router(outings.router, prefix="/api", tags=["outings"])
+app.include_router(events.router, prefix="/api", tags=["events"])
 
 @app.get("/")
 def read_root():

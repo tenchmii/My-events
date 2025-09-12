@@ -1,4 +1,4 @@
-import { OdsApiResponse } from "@/types/event";
+import { OdsApiResponse, OdsEventRecord } from "@/types/event";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -17,5 +17,29 @@ export async function getEvents(): Promise<OdsApiResponse> {
     throw new Error(`Failed to fetch events: ${res.status} ${res.statusText} - ${errorText}`);
   }
 
+  return res.json();
+}
+
+export async function getEventById(eventId: string): Promise<OdsEventRecord> {
+  const res = await fetch(`${API_URL}/api/events/${eventId}`, {
+    next: { revalidate: 3600 },
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch event details');
+  }
+  return res.json();
+}
+
+// --- NOUVELLE FONCTION ---
+// Pour récupérer les sorties d'un événement
+export async function getOutingsForEvent(eventId: string): Promise<any[]> { // On utilisera un type plus précis plus tard
+  const res = await fetch(`${API_URL}/api/events/${eventId}/outings`, {
+    cache: 'no-store', // On ne veut pas de cache pour les sorties, c'est dynamique
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch outings for event');
+  }
   return res.json();
 }

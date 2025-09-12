@@ -7,16 +7,11 @@ from schemas import user as user_schema
 from crud import user as user_crud
 from models import user as user_model 
 from database import SessionLocal
+from database import get_db
 from security import create_access_token, verify_password, ACCESS_TOKEN_EXPIRE_MINUTES
 
 router = APIRouter()
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 @router.post("/register", response_model=user_schema.User)
 def register_user(user_data: user_schema.UserRegister, db: Session = Depends(get_db)):

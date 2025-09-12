@@ -1,5 +1,6 @@
 export interface OdsEventRecord {
-  id: string;
+  uid: string; 
+  id?: string;
   title_fr: string;
   description_fr?: string;
   image: string; 
