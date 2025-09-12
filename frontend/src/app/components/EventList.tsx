@@ -1,7 +1,7 @@
 import { getEvents } from "@/services/eventService";
 import { OdsEventRecord } from "@/types/event";
 
-function EventCard({ event }: { event: OdsEventRecord }) {
+export function EventCard({ event }: { event: OdsEventRecord }) {
   const eventDate = new Date(event.firstdate_begin).toLocaleDateString('fr-FR', {
     weekday: 'long',
     year: 'numeric',
