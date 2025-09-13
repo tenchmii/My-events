@@ -12,7 +12,7 @@ export function EventCard({ event }: { event: OdsEventRecord }) {
 
   return (
     <Link href={`/events/${event.uid}`}>
-      <div className="bg-[#2D2D2D] border border-gray-700 rounded-lg p-4 shadow-md hover:shadow-lg hover:border-blue-500 transition-all duration-300 flex flex-col text-white h-full cursor-pointer">
+      <div className="bg-2D2D2D[#] border border-gray-700 rounded-lg p-4 shadow-md hover:shadow-lg hover:border-blue-500 transition-all duration-300 flex flex-col text-white h-full cursor-pointer">
         <img 
           src={event.image} 
           alt={event.title_fr} 

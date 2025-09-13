@@ -8,6 +8,9 @@ export interface OdsEventRecord {
   lastdate_end: string;    
   location_address: string;
   location_city: string;
+  originagenda_title: string;
+  longdescription_fr: string;
+  location_name: string;
   location_geopoint: {
     lat: number;
     lon: number;

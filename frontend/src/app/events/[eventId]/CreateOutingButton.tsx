@@ -25,14 +25,14 @@ export default function CreateOutingButton({ eventId }: { eventId: string }) {
     <>
       <button 
         onClick={() => setShowModal(true)}
-        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mb-4"
+        className="bg-[#2D2D2D] hover:bg-[#403f3f] text-white font-bold py-2 px-4 rounded-lg mb-4"
       >
         Organiser une sortie
       </button>
 
       {/* Modale de création (simplifiée) */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+        <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="bg-gray-800 p-6 rounded-lg text-white w-full max-w-md">
             <h3 className="text-2xl mb-4">Créer une nouvelle sortie</h3>
             <div className="space-y-4">
@@ -47,7 +47,7 @@ export default function CreateOutingButton({ eventId }: { eventId: string }) {
               </div>
               <div className="flex justify-end space-x-4 mt-6">
                 <button onClick={() => setShowModal(false)} className="bg-gray-600 px-4 py-2 rounded">Annuler</button>
-                <button onClick={handleCreateOuting} className="bg-blue-600 px-4 py-2 rounded">Confirmer</button>
+                <button onClick={handleCreateOuting} className="bg-black px-4 py-2 rounded">Confirmer</button>
               </div>
             </div>
           </div>
