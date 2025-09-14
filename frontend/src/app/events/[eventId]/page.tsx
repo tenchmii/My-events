@@ -25,7 +25,7 @@ function OutingCard({ outing }: { outing: Outing }) {
 }
 
 export default async function EventDetailPage({ params }: { params: { eventId: string } }) {
-  const { eventId } = params;
+  const { eventId } = await params;
 
   const [event, outings] = await Promise.all([
     getEventById(eventId),
@@ -36,6 +36,9 @@ export default async function EventDetailPage({ params }: { params: { eventId: s
     dateStyle: 'full',
     timeStyle: 'short'
   });
+  const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${event.location_coordinates.lat},${event.location_coordinates.lon}&zoom=15&size=600x400&markers=color:red%7C${event.location_coordinates.lat},${event.location_coordinates.lon}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`;
+
+
 
   return (
     <>
@@ -90,9 +93,18 @@ export default async function EventDetailPage({ params }: { params: { eventId: s
         </div>
       </div>
     </div>
-    <div className="text-white max-w-7xl mx-auto border-t border-gray-700 pt-6">
-      <h1 className="text-xl font-bold mb-4">Description</h1>
+    <div className="text-white max-w-4xl ml-25 border-t border-gray-700 pt-6">
+      <h1 className="text-xl font-bold mb-4 flex flex-col">Description</h1>
       <div dangerouslySetInnerHTML={{ __html: event.longdescription_fr }} className="text-sm"/>
+      <h1 className="text-xl font-bold mb-4 mt-4 flex flex-col">Conditions</h1>
+      <span>{event.conditions_fr || 'Aucune condition spécifique'}</span>
+      <h1 className="text-xl font-bold mb-4 mt-4 flex flex-col">Location</h1>
+      <div className="mt-4">
+        {event.location_coordinates?.lat && event.location_coordinates?.lon && (
+          <img src={mapUrl} alt={`Map for ${event.title_fr}`} className="" />
+        )}
+
+      </div>
     </div>
     
 

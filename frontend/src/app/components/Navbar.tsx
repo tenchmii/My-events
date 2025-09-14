@@ -5,8 +5,16 @@ import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
 import { BiSearch } from "react-icons/bi";
+import { useState } from "react";
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
+  const menuItems = [
+    { label: "City", href: "/explore/city" },
+    { label: "Concert", href: "/explore/concert" },
+    { label: "Exposition", href: "/explore/exposition" },
+    { label: "Conference", href: "/explore/conference" },
+  ];
   const { data: session, status } = useSession();
 
   return (
@@ -21,6 +29,21 @@ export default function Navbar() {
               Rechercher un événement, concert ou ville
           </button> 
         </Link>
+        <button onClick={() => setOpen(!open)} className="relative">Explore</button>
+        {open && (
+          <div className="absolute mt-50 ml-140 w-40 bg-white rounded shadow-lg z-50">
+            {menuItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="block px-4 py-2 text-black hover:bg-gray-700"
+              onClick={() => setOpen(false)}
+            >
+              {item.label}
+            </Link>
+          ))}
+          </div>
+        )}
       </div>
 
       <div className="flex space-x-6 items-center">
@@ -44,19 +67,18 @@ export default function Navbar() {
 
         {status === "authenticated" && session?.user && (
           <div className="flex items-center space-x-4">
-            <Link href="/profile">
-              <span className="font-semibold">{session.user.name}</span>
-            </Link>
               <div className="flex items-center space-x-4">
-                {session.user.image && (
-                  <Image
-                    src={session.user.image}
-                    alt="Avatar"
-                    width={32}
-                    height={32}
-                    className="rounded-full"
-                  />
+                <Link href="/profile">
+                  {session.user.image && (
+                    <Image
+                      src={session.user.image}
+                      alt="Avatar"
+                      width={32}
+                      height={32}
+                      className="rounded-full"
+                    />
                 )}
+                </Link>
               <button
                 onClick={() => signOut()}
                 className="uppercase bg-red-600 text-white font-bold p-2 text-xs rounded-sm hover:bg-red-700 transition-colors"

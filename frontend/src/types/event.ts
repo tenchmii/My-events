@@ -11,7 +11,8 @@ export interface OdsEventRecord {
   originagenda_title: string;
   longdescription_fr: string;
   location_name: string;
-  location_geopoint: {
+  conditions_fr: string;
+  location_coordinates: {
     lat: number;
     lon: number;
   };
