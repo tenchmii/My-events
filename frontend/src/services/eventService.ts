@@ -1,4 +1,5 @@
 import { OdsApiResponse, OdsEventRecord } from "@/types/event";
+import { Outing } from "@/types/outing";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -6,10 +7,9 @@ export async function getEvents(): Promise<OdsApiResponse> {
   if (!API_URL) {
     throw new Error("NEXT_PUBLIC_API_URL is not defined in .env.local");
   }
-  
 
   const res = await fetch(`${API_URL}/api/events`, {
-    cache: 'no-store' 
+    cache: "no-store",
   });
 
   if (!res.ok) {
@@ -26,20 +26,20 @@ export async function getEventById(eventId: string): Promise<OdsEventRecord> {
   });
 
   if (!res.ok) {
-    throw new Error('Failed to fetch event details');
+    throw new Error("Failed to fetch event details");
   }
   return res.json();
 }
 
-// --- NOUVELLE FONCTION ---
-// Pour récupérer les sorties d'un événement
-export async function getOutingsForEvent(eventId: string): Promise<any[]> { // On utilisera un type plus précis plus tard
+// ✅ Fixed: Strong typing instead of `any[]`
+export async function getOutingsForEvent(eventId: string): Promise<Outing[]> {
   const res = await fetch(`${API_URL}/api/events/${eventId}/outings`, {
-    cache: 'no-store', // On ne veut pas de cache pour les sorties, c'est dynamique
+    cache: "no-store",
   });
 
   if (!res.ok) {
-    throw new Error('Failed to fetch outings for event');
+    throw new Error("Failed to fetch outings for event");
   }
+
   return res.json();
 }

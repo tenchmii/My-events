@@ -4,8 +4,9 @@ import { getEvents } from "@/services/eventService";
 import { OdsEventRecord } from "@/types/event";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
-// Event card component (reuse from your code)
+
 export function EventCard({ event }: { event: OdsEventRecord }) {
   const eventDate = new Date(event.firstdate_begin).toLocaleDateString("fr-FR", {
     weekday: "long",
@@ -17,10 +18,13 @@ export function EventCard({ event }: { event: OdsEventRecord }) {
   return (
     <Link href={`/events/${event.uid}`}>
       <div className="bg-[#2D2D2D] border border-gray-700 rounded-lg p-4 shadow-md hover:shadow-lg hover:border-blue-500 transition-all duration-300 flex flex-col text-white h-full cursor-pointer">
-        <img
+        <Image
           src={event.image}
           alt={event.title_fr}
+          width={800}
+          height={300} 
           className="w-full h-48 object-cover rounded-md mb-4"
+          priority
         />
         <h2 className="text-xl font-bold mb-2 text-blue-300">{event.title_fr}</h2>
         <p className="text-gray-400 text-sm mb-2">{eventDate}</p>

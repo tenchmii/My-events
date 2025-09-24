@@ -1,7 +1,7 @@
 import { getEventById, getOutingsForEvent } from "@/services/eventService";
 import CreateOutingButton from "./CreateOutingButton";
 import { CiCalendar, CiHome, CiLocationOn} from "react-icons/ci";
-
+import Image from "next/image";
 
 interface Outing {
   id: number;
@@ -83,10 +83,13 @@ export default async function EventDetailPage({ params }: { params: { eventId: s
             
           </div>
           <div className="flex-1">
-            <img 
-              src={event.image} 
-              alt={event.title_fr} 
+            <Image
+              src={event.image}
+              alt={event.title_fr}
               className="w-full h-64 sm:h-80 md:h-96 lg:h-[350px] object-cover rounded-xl shadow-2xl border border-gray-700"
+              width={700}    
+              height={350}    
+              priority         
             />
           </div>
         </div>

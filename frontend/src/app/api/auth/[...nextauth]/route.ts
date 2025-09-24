@@ -61,48 +61,49 @@ const handler = NextAuth({
     async signIn({ user, account }) {
       if (account?.provider === "google") {
         try {
-          const apiResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/callback`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              email: user.email,
-              pseudo: user.name,
-              avatar_url: user.image,
-              provider: account.provider,
-              provider_id: account.providerAccountId,
-            }),
-          });
+        const apiResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/callback`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: user.email,
+            pseudo: user.name,
+            avatar_url: user.image,
+            provider: account.provider,
+            provider_id: account.providerAccountId,
+          }),
+        });
 
-          if (!apiResponse.ok) {
-            console.error("Backend API error on google signin:", await apiResponse.text());
-            return false;
-          }
-
-          const data = await apiResponse.json();
-          (user as any).backendToken = data.access_token;
-          return true;
-        } catch (error) {
-          console.error("Error connecting to backend API:", error);
+        if (!apiResponse.ok) {
+          console.error("Backend API error on google signin:", await apiResponse.text());
           return false;
         }
-      }
-      return true; 
-    },
 
-    async jwt({ token, user }) {
-      if ((user as any)?.backendToken) {
-        token.accessToken = (user as any).backendToken;
+        const data = await apiResponse.json();
+        user.backendToken = data.access_token; // ✅ no casting needed now
+        return true;
+      } catch (error) {
+        console.error("Error connecting to backend API:", error);
+        return false;
       }
-      return token;
-    },
-
-    async session({ session, token }) {
-      if (token.accessToken) {
-        session.accessToken = token.accessToken as string;
-      }
-      return session;
-    },
+    }
+    return true;
   },
+
+  async jwt({ token, user }) {
+    if (user?.backendToken) {
+      token.accessToken = user.backendToken;
+    }
+    return token;
+  },
+
+  async session({ session, token }) {
+    if (token.accessToken) {
+      session.accessToken = token.accessToken;
+    }
+    return session;
+  },
+},
+
   pages: {
     signIn: "/auth", 
     error: "/auth", 
