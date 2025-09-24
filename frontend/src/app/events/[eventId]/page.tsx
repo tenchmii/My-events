@@ -1,5 +1,4 @@
 import { getEventById, getOutingsForEvent } from "@/services/eventService";
-import { OdsEventRecord } from "@/types/event";
 import CreateOutingButton from "./CreateOutingButton";
 import { CiCalendar, CiHome, CiLocationOn} from "react-icons/ci";
 

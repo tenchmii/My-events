@@ -62,7 +62,7 @@ export default function SearchPage() {
           </div>
         ) : (
           <p className="text-center text-gray-400 mt-6">
-            Aucun résultat trouvé pour "{query}".
+            Aucun résultat trouvé pour &quot;{query}&quot;.
           </p>
         )
       ) : (
