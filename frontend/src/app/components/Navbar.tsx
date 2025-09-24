@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-
+import { IoIosArrowDown } from "react-icons/io";
 import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
 import { BiSearch } from "react-icons/bi";
@@ -29,7 +29,10 @@ export default function Navbar() {
               Rechercher un événement, concert ou ville
           </button> 
         </Link>
-        <button onClick={() => setOpen(!open)} className="relative">Explore</button>
+        <div className="flex items-center gap-1">
+          <button onClick={() => setOpen(!open)} className="relative">Explore</button>
+          <IoIosArrowDown className="mt-1"/>
+        </div>
         {open && (
           <div className="absolute mt-50 ml-140 w-40 bg-white rounded shadow-lg z-50">
             {menuItems.map((item) => (
@@ -69,15 +72,18 @@ export default function Navbar() {
           <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-4">
                 <Link href="/profile">
-                  {session.user.image && (
+                  {session.user.image ? (
                     <Image
                       src={session.user.image}
                       alt="Avatar"
-                      width={32}
-                      height={32}
-                      className="rounded-full"
-                    />
-                )}
+                      width={70}
+                      height={70}
+                      className="rounded-full"/>
+                  ) : (
+                    <div className="w-[30px] h-[30px] flex items-center justify-center rounded-full bg-black text-white text-sm font-bold">
+                      {session.user.name?.charAt(0).toUpperCase()}
+                    </div>
+                  )}
                 </Link>
               <button
                 onClick={() => signOut()}

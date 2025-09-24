@@ -40,3 +40,15 @@ def create_db_user(db: Session, user: user_schema.UserRegister):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+def update_user(db: Session, user_id: int, updates: dict):
+    db_user = db.query(user_model.User).filter(user_model.User.id == user_id).first()
+    if not db_user:
+        return None
+    for key, value in updates.items():
+        if hasattr(db_user, key) and value is not None:
+            setattr(db_user, key, value)
+
+    db.commit()
+    db.refresh(db_user)
+    return db_user

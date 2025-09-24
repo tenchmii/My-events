@@ -114,12 +114,31 @@ export default function Profile() {
           )}
           {activeTab === "public" && (
             <div className="flex flex-col items-center m-10 gap-6">
-              <div className="w-[100px] h-[100px] flex items-center justify-center rounded-full bg-gray-600 text-white text-3xl font-bold">
-                +
-              </div>
+              {session.user.image ? (
+                <Image
+                  src={session.user.image}
+                  alt="Avatar"
+                  width={70}
+                  height={70}
+                  className="rounded-full"/>
+              ) : (
+                <div className="w-[70px] h-[70px] flex items-center justify-center rounded-full bg-black text-white text-3xl font-bold">
+                  {session.user.name?.charAt(0).toUpperCase()}
+                </div>
+              )}
+              {isEditing ? (
+                <>
+                  <form className="flex flex-col gap-2 bg-[#575555] p-4 rounded-sm">
+                    <input type="text" className="outline-none p-3 border rounded-sm"/>
+
+                  </form>
+                </>
+
+              ) : (
               <button className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600">
                 Edit Public Profile
               </button>
+              )}
             </div>
           )}
         </>
