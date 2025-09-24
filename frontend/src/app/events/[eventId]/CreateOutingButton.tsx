@@ -34,7 +34,7 @@ export default function CreateOutingButton({ eventId }: CreateOutingButtonProps)
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${session.accessToken}`, // Important!
+          Authorization: `Bearer ${session.accessToken}`,
         },
         body: JSON.stringify({
           event_external_id: eventId,
@@ -51,12 +51,17 @@ export default function CreateOutingButton({ eventId }: CreateOutingButtonProps)
 
       setShowModal(false);
       router.refresh();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Une erreur inconnue est survenue.");
+      }
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <>

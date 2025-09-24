@@ -61,10 +61,11 @@ const Register = ({ switchToLogin }: RegisterProps) => {
           switchToLogin(); 
         }, 2000);
 
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err: unknown) {
+         if (err instanceof Error) setError(err.message);
+         else setError("An unexpected error occurred.");
       } finally {
-        setLoading(false);
+         setLoading(false);
       }
    };
 
@@ -82,7 +83,6 @@ const Register = ({ switchToLogin }: RegisterProps) => {
             <input type="email" name="email" placeholder="Email" onChange={handleChange} value={formData.email} className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full" required />
             <input type="password" name="password" placeholder="Password" onChange={handleChange} value={formData.password} className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full" required />
             <input type="password" name="passwordConfirmation" placeholder="Confirm Password" onChange={handleChange} value={formData.passwordConfirmation} className="border border-[#D9D9D9] outline-none p-3 rounded-sm w-full" required />
-            
             <span className="text-sm">Already have an account? <a className="underline cursor-pointer text-blue-600" onClick={switchToLogin}>Log in</a></span>
             <button type="submit" className="w-full bg-black text-white font-semibold p-3 rounded-sm uppercase" disabled={loading}>
                 {loading ? "Registering..." : "Sign Up"}
@@ -131,11 +131,11 @@ const Login = ({ switchToRegister }: LoginProps) => {
         } else if (result?.ok) {
           router.push('/');
         }
-      } catch (error) {
-        console.error(error);
-        setError("An unexpected error occurred.");
-        setLoading(false);
+      } catch (err: unknown) {
+         if (err instanceof Error) setError(err.message);
+         else setError("An unexpected error occurred.");
       }
+
    };
 
    return (
@@ -154,7 +154,7 @@ const Login = ({ switchToRegister }: LoginProps) => {
             <button type="submit" className="w-full bg-black text-white font-semibold p-3 rounded-sm uppercase" disabled={loading}>
                 {loading ? "Logging in..." : "Log in"}
             </button>
-            <span className="text-sm">You don't have an account yet? <a className="underline cursor-pointer text-blue-600" onClick={switchToRegister}>Sign Up</a></span>
+            <span className="text-sm">You don&apos;t have an account yet? <a className="underline cursor-pointer text-blue-600" onClick={switchToRegister}>Sign Up</a></span>
             
             <div className="w-full text-center my-2 text-gray-500 text-sm">OR</div>
             <div className="w-full space-y-3">

@@ -126,3 +126,43 @@ Examples:
 *   `refactor: simplify event filtering component`
 *   `test: add unit tests for user service`
 *   `chore: upgrade next.js to version 14.1`
+
+1️⃣ TypeScript any issues
+
+You need to fix all any types:
+
+./src/app/api/auth/[...nextauth]/route.ts → lines 82, 93, 94
+
+./src/app/auth/page.tsx → line 64
+
+./src/app/events/[eventId]/CreateOutingButton.tsx → line 54
+
+2️⃣ JSX unescaped characters
+
+You need to escape ' or ":
+
+./src/app/auth/page.tsx → line 157
+
+./src/app/search/page.tsx → lines 65:40, 65:48
+
+3️⃣ <img> tags (Next.js warning)
+
+Next.js recommends using <Image />:
+
+./src/app/components/EventList.tsx → line 16
+
+./src/app/events/[eventId]/page.tsx → lines 86:13, 103:11
+
+./src/app/search/page.tsx → line 20:9
+
+4️⃣ Unused variables / imports
+
+Optional, but good to clean:
+
+./src/app/api/auth/[...nextauth]/route.ts → User is imported but not used
+
+./src/app/search/page.tsx → OdsEventRecord is imported but not used
+
+./src/app/search/page.tsx → events variable is assigned but never used
+
+./src/app/profile/page.tsx → e is defined but never used
