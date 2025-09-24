@@ -32,7 +32,7 @@ function OutingCard({ outing }: { outing: Outing }) {
 }
 
 export default async function EventDetailPage({ params }: EventDetailPageProps) {
-  const { eventId } = params;
+  const { eventId } = await params;
 
   const [event, outings] = await Promise.all([
     getEventById(eventId),
